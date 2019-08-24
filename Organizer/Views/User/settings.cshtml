@@ -40,7 +40,7 @@
         </fieldset>
     </form>
     <div class="text-success">
-        @if (ViewBag.Success != null)
+        @if (TempData["Success"] != null)
         {
             <p>@Localizer["txtChange"]</p>
         }

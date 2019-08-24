@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Organizer.Business;
@@ -48,7 +50,7 @@ namespace Organizer.Controllers
             });
         }
         [HttpPost]
-        public IActionResult settings(SettingsDTO settings)
+        public async Task<IActionResult> settings(SettingsDTO settings)
         {
             User user = PageInit();
             user.Name = settings.Name == null ? user.Name : settings.Name;
@@ -58,14 +60,31 @@ namespace Organizer.Controllers
             unitWork.Users.Update(user);
             unitWork.SaveChanges();
 
-            ViewBag.Success = "true";
-            return View();
+            await UpdateNameClaims(user);
+
+            TempData["Success"] = "true";
+            return RedirectToAction("settings");
         }
 
         private User PageInit()
         {
             string login = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
             return unitWork.Users.GetByEmail(login);
+        }
+
+        private async Task UpdateNameClaims(User user)
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.IsAdmin == true ? "Admin" : "User"),
+                new Claim(ClaimTypes.Name, user.Name+"  "+user.Surname)
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
 }
