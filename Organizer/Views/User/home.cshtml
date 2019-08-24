@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<img src="~/img/homer.png" class="float-left mr-2" />
+
+<div class="mt-5">
+    <blockquote class="blockquote text-right">
+        <p class="mb-0">@Localizer["blockquote"]</p>
+        <footer class="blockquote-footer">@Localizer["author"]</footer>
+    </blockquote>
+
+    <p>
+        @Localizer["p1"]
+    </p>
+    <p>
+        @Localizer["p2"]
+    </p>
+    <p>
+        @Localizer["p3"]
+    </p>
+</div>

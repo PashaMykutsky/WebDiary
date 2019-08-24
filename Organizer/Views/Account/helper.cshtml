@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset class="mt-5">
+    <legend>@Localizer["legend1"]</legend>
+    @Localizer["text1"]
+    <legend>@Localizer["legend2"]</legend>
+    @Localizer["text2"]
+    <legend>@Localizer["legend3"]</legend>
+    @Localizer["text3"]
+    <h5>diary.liked@net.ua</h5>
+</fieldset>
+

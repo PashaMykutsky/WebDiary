@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="text-align:center;">
+    <form method="post" asp-controller="account" asp-action="forgot" asp-antiforgery="true">
+        <p class="text-info">@Localizer["txtInfo"]</p>
+        <div class="form-group">
+            <input type="text" name="email" class="form-control col-md-3 d-inline" placeholder="@Localizer["placeEmail"]" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-dark col-md-3">@Localizer["btnSubmit"]</button>
+        </div>
+    </form>
+    <div class="text-danger">
+        @if (ViewBag.Error != null)
+        {
+            <p>@Localizer["txtError"]</p>
+        }
+    </div>
+</div>
