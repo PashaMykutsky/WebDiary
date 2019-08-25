@@ -129,6 +129,12 @@
   <data name="Menu_name3" xml:space="preserve">
     <value>Записи</value>
   </data>
+  <data name="Menu_name3_1" xml:space="preserve">
+    <value>Всі записи</value>
+  </data>
+  <data name="Menu_name3_2" xml:space="preserve">
+    <value>Новий запис</value>
+  </data>
   <data name="Menu_name4" xml:space="preserve">
     <value>Календар</value>
   </data>

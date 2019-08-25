@@ -27,8 +27,12 @@
                     <li class="nav-item">
                         <a class="nav-link disabled" asp-action="projects" asp-controller="user">@Localizer["Menu_name2"]</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="records" asp-controller="user">@Localizer["Menu_name3"]</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Menu_name3"]</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown">
+                            <a class="dropdown-item" asp-action="records" asp-controller="user">@Localizer["Menu_name3_1"]</a>
+                            <a class="dropdown-item" asp-action="new_record" asp-controller="user">@Localizer["Menu_name3_2"]</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" asp-action="calendar" asp-controller="user">@Localizer["Menu_name4"]</a>
@@ -44,7 +48,7 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-md-0 mr-1">
-                    <input class="form-control" type="text" placeholder="#@Localizer["placeSearch"]">
+                    <input class="form-control" type="text" name="search" placeholder="#@Localizer["placeSearch"]">
                 </form>
                 <form class="form-inline my-2 my-md-0" method="post" asp-anti-forgery="true" asp-controller="Account" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path">
                     <input name="language" type="submit" value="En" class="btn btn-outline-light" />

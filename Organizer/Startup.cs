@@ -36,6 +36,8 @@ namespace Organizer
                     //options.AccessDeniedPath = new PathString("Account/AccessDenied");
                 });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
                 .AddDataAnnotationsLocalization()

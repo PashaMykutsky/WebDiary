@@ -100,6 +100,13 @@ namespace Organizer.Business
             return db.Records;
         }
 
+        public bool CheckRecordsUser(int Id_User)
+        {
+            if (db.Records.First(r => r.User.Id == Id_User) != null)
+                return true;
+            return false;
+        }
+
         public IEnumerable<Record> GetAllByUser(int id)
         {
             return db.Records.Where( r => r.User.Id == id);

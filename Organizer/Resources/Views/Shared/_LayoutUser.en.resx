@@ -129,6 +129,12 @@
   <data name="Menu_name3" xml:space="preserve">
     <value>Records</value>
   </data>
+  <data name="Menu_name3_1" xml:space="preserve">
+    <value>All records</value>
+  </data>
+  <data name="Menu_name3_2" xml:space="preserve">
+    <value>New record</value>
+  </data>
   <data name="Menu_name4" xml:space="preserve">
     <value>Calendar</value>
   </data>

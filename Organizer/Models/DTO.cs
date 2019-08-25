@@ -40,4 +40,17 @@ namespace Organizer.Models.DTO
         [Compare("Password", ErrorMessage = "em_Compare")]
         public string RepitPass { get; set; }
     }
+
+    public class RecordDTO
+    {
+        [ScaffoldColumn(false)]
+        public int Id { get; set; }
+        [ScaffoldColumn(false)]
+        public DateTime CreateTime { get; set; }
+        [Required(ErrorMessage = "em_Title")]
+        [StringLength(35, ErrorMessage = "em_MaxLength")]
+        public string Title { get; set; }
+        [Required(ErrorMessage = "em_Text")]
+        public string Text { get; set; }
+    }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Organizer.Business;
 using Organizer.Models;
@@ -18,13 +19,17 @@ namespace Organizer.Controllers
     {
         private ModelContext context;
         private UnitOfWork unitWork;
+        private List<Record> recordsUser;
+        private PagedList<Record> pagedList;
+        private User user;
 
-        public userController(ModelContext context)
+        public userController(ModelContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
             unitWork = new UnitOfWork(context);
+            user = PageInit(httpContextAccessor);
         }
-        
+
         [HttpGet]
         public IActionResult home()
         {
@@ -35,16 +40,118 @@ namespace Organizer.Controllers
         {
             return View();
         }
+        public ActionResult next()
+        {
+            PagedList<Record>.currentPage++;
+            return RedirectToAction("records");
+        }
+
+        public ActionResult previous()
+        {
+            PagedList<Record>.currentPage--;
+            return RedirectToAction("records");
+        }
         [HttpGet]
-        public IActionResult records()
+        public IActionResult records(string sort)
+        {
+            if (unitWork.Records.CheckRecordsUser(user.Id))
+            {
+                pagedList = new PagedList<Record>(unitWork.Records.GetAllByUser(user.Id).ToList(), 5);
+
+                recordsUser = pagedList.GetPageObjects();
+
+                ViewBag.DateSortParm = sort == "date" ? "date_desc" : "date";
+
+                switch (sort)
+                {
+                    case "date":
+                        recordsUser = recordsUser.OrderBy(r => r.CreateTime).ToList();
+                        break;
+                    case "date_desc":
+                        recordsUser = recordsUser.OrderByDescending(r => r.CreateTime).ToList();
+                        break;
+                }
+
+                return View(recordsUser);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult delete_record(int id)
+        {
+            unitWork.Records.Delete(id);
+            unitWork.SaveChanges();
+
+            return RedirectToAction("records");
+        }
+        [HttpGet]
+        public IActionResult show_record(int id)
+        {
+            Record record = unitWork.Records.Get(id);
+
+            if (record.User != null && record.User.Id == user.Id)
+                return View(new RecordDTO { Title = record.Title, Text = record.Text });
+
+            return RedirectToAction("records");
+        }
+        [HttpGet]
+        public IActionResult edit_record(int id)
+        {
+            Record record = unitWork.Records.Get(id);
+
+            if (record.User != null && record.User.Id == user.Id)
+                return View(new RecordDTO
+                {
+                    Id = record.Id,
+                    CreateTime = record.CreateTime,
+                    Title = record.Title,
+                    Text = record.Text
+                });
+
+            return RedirectToAction("records");
+        }
+        [HttpPost]
+        public IActionResult edit_record(RecordDTO record)
+        {
+            unitWork.Records.Update(new Record
+            {
+                Id = record.Id,
+                Title = record.Title,
+                Text = record.Text,
+                CreateTime = record.CreateTime,
+                User = user
+            });
+
+            unitWork.SaveChanges();
+
+            return RedirectToAction("records");
+        }
+        [HttpGet]
+        public IActionResult new_record()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult new_record(RecordDTO record)
+        {
+            unitWork.Records.Create(new Record
+            {
+                Title = record.Title,
+                Text = record.Text,
+                CreateTime = DateTime.Now,
+                User = user
+            });
+            unitWork.SaveChanges();
+
+            return RedirectToAction("records");
         }
         [HttpGet]
         public IActionResult settings()
         {
-            User user = PageInit();
-            return View(new SettingsDTO {
+            return View(new SettingsDTO
+            {
                 Name = user.Name,
                 Surname = user.Surname
             });
@@ -52,7 +159,6 @@ namespace Organizer.Controllers
         [HttpPost]
         public async Task<IActionResult> settings(SettingsDTO settings)
         {
-            User user = PageInit();
             user.Name = settings.Name == null ? user.Name : settings.Name;
             user.Surname = settings.Surname == null ? user.Surname : settings.Surname;
             user.Password = settings.Password == null ? user.Password : CryptoService.HashingPassword(settings.Password);
@@ -60,19 +166,19 @@ namespace Organizer.Controllers
             unitWork.Users.Update(user);
             unitWork.SaveChanges();
 
-            await UpdateNameClaims(user);
+            await UpdateNameClaim(user);
 
             TempData["Success"] = "true";
             return RedirectToAction("settings");
         }
 
-        private User PageInit()
+        private User PageInit(IHttpContextAccessor httpContextAccessor)
         {
-            string login = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
+            string login = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
             return unitWork.Users.GetByEmail(login);
         }
 
-        private async Task UpdateNameClaims(User user)
+        private async Task UpdateNameClaim(User user)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 

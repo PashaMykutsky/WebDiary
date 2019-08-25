@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="legend1" xml:space="preserve">
-    <value>Для чего</value>
+  <data name="em_MaxLength" xml:space="preserve">
+    <value>Max length - 35 symbols</value>
   </data>
-  <data name="legend2" xml:space="preserve">
-    <value>Для вопросы</value>
+  <data name="em_Text" xml:space="preserve">
+    <value>Write something</value>
   </data>
-  <data name="legend3" xml:space="preserve">
-    <value>Контакты</value>
-  </data>
-  <data name="text1" xml:space="preserve">
-    <value>Сайт создан для личного пользования каждого человека, который хочет вести свои личные записи.
-    Всё что Вы здесь написали является конфиденциальной информацией и будет доступна только Вам.
-    Ежедневное вспоминание, переваривание, переосмысливание и формулирование в виде фраз и предложений, 
-    всего произошедшего за день, поможет тебе без особых усилий стать умнее. Ведение органайзера поможет 
-    тебе держать свои мысли и идеи в порядке. Это заставит твой мозг вовремя "раскладывать по полочкам, 
-    и каталогизировать" всю поступающую к нему информацию. Ты станешь лучше понимать себя и окружающих.</value>
-  </data>
-  <data name="text2" xml:space="preserve">
-    <value>Если есть вопросы по сайту, обращайся - pavel.mykutsky@gmail.com</value>
-  </data>
-  <data name="text3" xml:space="preserve">
-    <value>Также ты можеш обратиться к разработчикам этого сайта если хочеш что-то изменить на сайте или у тебя 
-    есть идеи как сделать сайт лучше.</value>
+  <data name="em_Title" xml:space="preserve">
+    <value>Write a caption</value>
   </data>
 </root>
