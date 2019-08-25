@@ -135,6 +135,9 @@
   <data name="txtError" xml:space="preserve">
     <value>Неправильный пароль или е-мейл</value>
   </data>
+  <data name="txtIsBaned" xml:space="preserve">
+    <value>Твой аккаунт забанили</value>
+  </data>
   <data name="txtSend" xml:space="preserve">
     <value>Сообщение с новым паролем было отправлено</value>
   </data>

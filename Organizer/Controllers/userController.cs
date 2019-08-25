@@ -14,7 +14,7 @@ using Organizer.Models.DTO;
 
 namespace Organizer.Controllers
 {
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User")]
     public class userController : Controller
     {
         private ModelContext context;

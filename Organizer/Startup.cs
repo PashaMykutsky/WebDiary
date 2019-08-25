@@ -81,7 +81,7 @@ namespace Organizer
                 routes.MapRoute( // костиль, надо исправить в отдельную страницю для вывода ошибок
                     name: "error403",
                     template: "Account/AccessDenied",
-                    defaults: new { controller = "user", action = "home" });
+                    defaults: new { controller = "account", action = "login" });
             });
         }
     }

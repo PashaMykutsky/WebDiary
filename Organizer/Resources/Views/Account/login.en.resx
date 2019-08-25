@@ -135,6 +135,9 @@
   <data name="txtError" xml:space="preserve">
     <value>Invalid email or password</value>
   </data>
+  <data name="txtIsBaned" xml:space="preserve">
+    <value>Your account is banned</value>
+  </data>
   <data name="txtSend" xml:space="preserve">
     <value>A message with a new password has been sent</value>
   </data>

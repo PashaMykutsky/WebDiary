@@ -46,13 +46,18 @@ namespace Organizer.Controllers
                 User user = unitWork.Users.UserVerification(authUser.login, authUser.password);
                 if (user != null)
                 {
-                    await Authenticate(user);
-
-                    if (user.IsAdmin)
+                    if (user.IsBanned != true)
                     {
-                        return RedirectToAction("home", "admin");
+                        await Authenticate(user);
+
+                        if (user.IsAdmin)
+                        {
+                            return RedirectToAction("home", "admin");
+                        }
+                        return RedirectToAction("home", "user");
                     }
-                    return RedirectToAction("home", "user");
+                    ViewBag.IsBanned = "true";
+                    return View();
                 }
             }
             ViewBag.Error = "error";

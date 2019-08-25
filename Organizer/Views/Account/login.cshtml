@@ -30,6 +30,12 @@
         </div>
     </form>
     <div class="text-danger">
+        @if (ViewBag.IsBanned != null)
+        {
+            <p>@Localizer["txtIsBaned"]</p>
+        }
+    </div>
+    <div class="text-danger">
         @if (ViewBag.Error != null)
         {
             <p>@Localizer["txtError"]</p>
