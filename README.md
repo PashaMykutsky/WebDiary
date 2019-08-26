@@ -1,5 +1,3 @@
-# WebDiary
-my version of simple the notebook)
 
 for start solution you need download this database 
 and change database connection in appsettings.json
