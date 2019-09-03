@@ -46,13 +46,7 @@ namespace Organizer.Business
         }
         private static string GetSaltInHash(string hash)
         {
-            string salt = "";
-            // getting salt
-            for (int i = 0; i < 29; i++)
-            {
-                salt += hash[i];
-            }
-            return salt;
+            return hash.Substring(0, 29);
         }
     }
 }
