@@ -23,13 +23,13 @@ namespace Organizer.Business
 
         public static bool VerificationPassword(string input, string hash)
         {
-            string hashInput = BCrypt.Net.BCrypt.HashPassword(input, GetSaltInHash(hash));
+            string hashInput = BCrypt.Net.BCrypt.HashPassword(input, hash.Substring(0, 29));
             return hashInput == hash;
         }
         public static string GetRandomPassword()
         {
             Random random = new Random();
-
+            
             string lower_case = "abcdefghijklmnopqrstuvwxyz";
             string upper_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string digits = "0123456789";
@@ -43,10 +43,6 @@ namespace Organizer.Business
             }
 
             return password;
-        }
-        private static string GetSaltInHash(string hash)
-        {
-            return hash.Substring(0, 29);
         }
     }
 }
